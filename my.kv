@@ -1,0 +1,205 @@
+<TextInput>
+    size_hint: 0.05, 0.05
+    multiline: False
+
+<Label>
+    size_hint: 0.05, 0.05
+    color: 0.1, 0.1, 0.1, 1
+
+<Button>
+    background_normal: ''
+    background_color: .7, .7, .7, 1
+    color: 0.1, 0.1, 0.1, 1
+
+<CheckBox>
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            pos:self.center_x-8, self.center_y-8
+            size:[16,16]
+        Color:
+            rgb: 0.9,0.9,0.9
+        Rectangle:
+            pos:self.center_x-7, self.center_y-7
+            size:[14,14]
+<FloatLayout>
+    canvas.before:
+        Color:
+            rgba: 0.9, 0.9, 0.9, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    GridLayout:
+        size_hint: 0.3, 0.05
+        pos_hint: {"x": 0, "y":0.9}
+        cols: 3
+        Label:
+            text: "Nr robota"
+        TextInput:
+            id: robot_number_input
+            text: "33"
+        
+        Button:
+            text: "Rozłącz" if root.connected else "Połącz"
+            on_press: root.disconnect() if root.connected else root.create_connection()
+    
+    GridLayout:
+        size_hint: 0.4, 0.1
+        pos_hint: {"x": 0.05, "y":0.6}
+        cols: 1
+        GridLayout:
+            size_hint: 0.4, 0.05
+            cols:2
+            Label:
+                text: "Podaj ramkę ręcznie:"
+            TextInput:
+                id: frame
+                text: "[000000]"
+        
+        Button:
+            text: "Zatwierdź"
+            on_press: root.submit_manual()
+    
+    Button:
+        pos_hint: {"x": 0.05, "y":0.8}
+        size_hint: 0.3, 0.05
+        text: "Przestań śledzić linię" if root.following else "Śledź linię"
+        on_press: root.stop_following() if root.following else root.follow()
+
+
+    Label:
+        text: "Połączono z " + str(root.number_property) if root.number_property != 0 else "Nie połączono"
+        pos_hint: {"x": 0.9, "y": 0}
+
+    Label:
+        text: "Ostatnia wysłana ramka: " + root.msg_out_property
+        pos_hint: {"x": 0.2, "y": 0.2}
+
+    Label:
+        text: "Ostatnia odebrana ramka: " + root.msg_in_property
+        pos_hint: {"x": 0.7, "y": 0.2}
+    
+    Label:
+        text: "LED"
+        pos_hint: {"x": 0.25, "y": 0.45}
+        bold: True
+
+
+    Label:
+        text: "Zielony"
+        pos_hint: {"x": 0.1, "y": 0.4}
+    CheckBox:
+        id: led_green
+        size_hint: 0.05, 0.05
+        pos_hint: {"x": 0.18, "y": 0.4}
+    Label:
+        text: "Czerwony"
+        pos_hint: {"x": 0.35, "y": 0.4}
+    CheckBox:
+        id: led_red
+        size_hint: 0.05, 0.05
+        pos_hint: {"x": 0.43, "y": 0.4}
+
+    GridLayout:
+        size_hint: 0.5, 0.05
+        pos_hint: {"x": 0, "y": 0.5}
+        cols: 4
+        Label:
+            text: "Silnik lewy:"
+        TextInput:
+            id: left_input
+            text: "0"
+        Label:
+            text: "Silnik prawy:"
+        TextInput:
+            id: right_input
+            text: "0"
+    
+    Button:
+        size_hint: 0.4, 0.05
+        pos_hint: {"x": 0.05, "y": 0.3}
+        text: "Zatwierdź"
+        on_press: root.submit()
+
+    GridLayout:
+        size_hint: 0.3, 0.05
+        pos_hint: {"x": 0.7, "y": 0.9}
+        cols: 3
+        Label:
+            text: "Bateria:" 
+        ProgressBar:
+            size_hint: 0.05, 0.05
+            max: 65536
+            value: root.battery_property
+        Label:
+            text: str(int(100 * root.battery_property / 65536)) + "%"
+
+    GridLayout:
+        size_hint: 0.3, 0.05
+        pos_hint: {"x": 0.7, "y": 0.7}
+        cols: 3
+        Label:
+            text: "Czujnik 1:" 
+        ProgressBar:
+            size_hint: 0.05, 0.05
+            max: 53255
+            value: root.s1_property
+        Label:
+            text: str(root.s1_property)
+
+    GridLayout:
+        size_hint: 0.3, 0.05
+        pos_hint: {"x": 0.7, "y": 0.65}
+        cols: 3
+        Label:
+            text: "Czujnik 2:" 
+        ProgressBar:
+            size_hint: 0.05, 0.05
+            max: 53255
+            value: root.s2_property
+        Label:
+            text: str(root.s2_property)
+
+    GridLayout:
+        size_hint: 0.3, 0.05
+        pos_hint: {"x": 0.7, "y": 0.6}
+        cols: 3
+        Label:
+            text: "Czujnik 3:" 
+        ProgressBar:
+            size_hint: 0.05, 0.05
+            max: 53255
+            value: root.s3_property
+        Label:
+            text: str(root.s3_property)
+
+    GridLayout:
+        size_hint: 0.3, 0.05
+        pos_hint: {"x": 0.7, "y": 0.55}
+        cols: 3
+        Label:
+            text: "Czujnik 4:" 
+        ProgressBar:
+            size_hint: 0.05, 0.05
+            max: 53255
+            value: root.s4_property
+        Label:
+            text: str(root.s4_property)
+
+    GridLayout:
+        size_hint: 0.3, 0.05
+        pos_hint: {"x": 0.7, "y": 0.5}
+        cols: 3
+        Label:
+            text: "Czujnik 5:" 
+        ProgressBar:
+            size_hint: 0.05, 0.05
+            max: 53255
+            value: root.s5_property
+        Label:
+            text: str(root.s5_property)
+    
+    #Label:
+    #    pos_hint: {"x": 0.6, "y": 0.7 - root.index_property * 0.05}
+    #    text: str(root.index_property)
